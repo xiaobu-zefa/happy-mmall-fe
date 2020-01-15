@@ -1,1 +1,0 @@
-const common = require('../common/index');

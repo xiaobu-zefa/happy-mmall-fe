@@ -1,6 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 function getHtmlWebpackPlugin(name, title) {
@@ -16,17 +18,15 @@ function getHtmlWebpackPlugin(name, title) {
 
 module.exports = {
     entry: {
-        index: ['./src/page/index/index.js'],
-        login: ['./src/page/login/index.js'],
-        result: ['./src/page/result/index.js'],
+        'common': ['./src/page/common/index.js'],
+        'index': ['./src/page/index/index.js'],
+        'user-login': ['./src/page/user-login/index.js'],
+        'result': ['./src/page/result/index.js'],
     },
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: 'js/[name].js',
         publicPath: '/dist/',
-    },
-    externals: {
-        "jquery": "window.jQuery"
     },
     module: {
         rules: [
@@ -46,23 +46,27 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            // chunks: 'all',
-            // minSize: 0,
             cacheGroups: {
-                default: {
-                    name: 'common',  // 指定公共模块 bundle 的名称
-                    chunks: 'initial',
-                    // minChunks: 2,
-                }
+                common: {
+                    test: path.resolve(__dirname, '/src/page/common/index.js'),
+                    name: 'common',  // 指定公共模块 bundle 的名称/
+                    chunks: 'all',
+                    filename: 'js/common.js',
+                },
             }
         },
     },
     plugins: [
+        // new CleanWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
         }),
         getHtmlWebpackPlugin('index', '首页'),
-        getHtmlWebpackPlugin('login', '用户登录'),
+        getHtmlWebpackPlugin('user-login', '用户登录'),
         getHtmlWebpackPlugin('result', '操作结果'),
     ],
     resolve: {
@@ -78,6 +82,7 @@ module.exports = {
         hot: true,
         open: true,
         port: 8088,
+        contentBase: path.join(__dirname, "dist"),
         proxy: {
             // 这里的意思是，只要本地用 /api 开头的请求，都被代理到 http://happymmall.com/api
             // 但是又配置了 pathRewrite ,将 /api 重写为 '' 所以实际上会被代理到 http://happymmall.com/
