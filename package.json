@@ -4,7 +4,9 @@
     "description": "mmall前端",
     "main": "./src/page/index/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack",
+        "dev": "webpack -d && webpack-dev-server"
     },
     "repository": {
         "type": "git",
@@ -30,6 +32,7 @@
         "webpack-dev-server": "^3.10.1"
     },
     "dependencies": {
-        "jQuery": "^1.7.4"
+        "font-awesome": "^4.7.0",
+        "hogan.js": "^3.0.2"
     }
 }

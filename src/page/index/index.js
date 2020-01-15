@@ -1,2 +1,7 @@
-require('./index.css');
-const common = require('../common/index');
+require('Page/common/header/index.js');
+require('Page/common/nav/index.js');
+const navSide = require('Page/common/nav-side/index.js');
+
+navSide.init({
+    name: 'about',
+});
