@@ -21,6 +21,14 @@
     color: #666;
     
 }
+.user-con .step-con{
+    display: none;
+}
+.user-con .user-item-text{
+    margin-bottom: 10px;
+    color: black;
+    font-size: 14px;
+}
 /* 错误提示 */
 .user-con .user-box .error-item{
     position: relative;

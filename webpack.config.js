@@ -19,8 +19,10 @@ module.exports = {
     entry: {
         'common': ['./src/page/common/index.js'],
         'index': ['./src/page/index/index.js'],
-        'user-login': ['./src/page/user-login/index.js'],
         'result': ['./src/page/result/index.js'],
+        'user-login': ['./src/page/user-login/index.js'],
+        'user-register': ['./src/page/user-register/index.js'],
+        'user-pass-reset': ['./src/page/user-pass-reset/index.js'],
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -50,7 +52,6 @@ module.exports = {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
-                    // filename: 'js/vendors.js',
                     priority: -10,
                     minChunks: 1,
                     chunks: 'all',
@@ -75,8 +76,10 @@ module.exports = {
             filename: 'css/[name].css',
         }),
         getHtmlWebpackPlugin('index', '首页'),
-        getHtmlWebpackPlugin('user-login', '用户登录'),
         getHtmlWebpackPlugin('result', '操作结果'),
+        getHtmlWebpackPlugin('user-login', '用户登录'),
+        getHtmlWebpackPlugin('user-register', '用户注册'),
+        getHtmlWebpackPlugin('user-pass-reset', '找回密码'),
     ],
     resolve: {
         alias: {
@@ -100,7 +103,13 @@ module.exports = {
                 changeOrigin: true,
                 target: 'http://happymmall.com/',
                 pathRewrite: { '^/api': '' },
+                secue: false,
+                cookieDomainRewrite: {
+                    ".happymmall.com": "",
+                }
             },
-        }
+        },
+
+
     }
 };

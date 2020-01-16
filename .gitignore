@@ -1,3 +1,4 @@
 /dist
 /node_modules
+/interface
 npm-debug.log
