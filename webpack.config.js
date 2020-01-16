@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 function getHtmlWebpackPlugin(name, title) {
@@ -12,7 +11,7 @@ function getHtmlWebpackPlugin(name, title) {
         inject: true,
         hash: true,
         title: title,
-        chunks: ['common', name]
+        chunks: ['vendor', 'common', name]
     });
 }
 
@@ -44,20 +43,30 @@ module.exports = {
             }
         ]
     },
+
     optimization: {
         splitChunks: {
             cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    // filename: 'js/vendors.js',
+                    priority: -10,
+                    minChunks: 1,
+                    chunks: 'all',
+                },
                 common: {
                     test: path.resolve(__dirname, '/src/page/common/index.js'),
-                    name: 'common',  // 指定公共模块 bundle 的名称/
+                    name: 'common',
                     chunks: 'all',
                     filename: 'js/common.js',
+                    minSize: 0,
+                    priority: -20,
                 },
             }
         },
     },
     plugins: [
-        // new CleanWebpackPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
