@@ -22,17 +22,17 @@
 1. webpack 多入口的配置
 
    ```js
-   	entry: {
-        'common': ['./src/page/common/index.js'],
-        'index': ['./src/page/index/index.js'],
-        'user-login': ['./src/page/user-login/index.js'],
-        'result': ['./src/page/result/index.js'],
-    },
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: 'js/[name].js',
-        publicPath: '/dist/',
-    },
+        entry: {
+            'common': ['./src/page/common/index.js'],
+            'index': ['./src/page/index/index.js'],
+            'user-login': ['./src/page/user-login/index.js'],
+            'result': ['./src/page/result/index.js'],
+        },
+        output: {
+            path: path.resolve(__dirname, './dist'),
+            filename: 'js/[name].js',
+            publicPath: '/dist/',
+        },
    ```
 
 2. 全局模块的引用
@@ -192,7 +192,7 @@
    });
    ```
 
-## 2020/1/15 - 项目开发
+## 2020/1/16 - 项目开发
 
 ##### 一、用户模块开发
 
