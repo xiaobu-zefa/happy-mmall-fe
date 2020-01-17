@@ -1,6 +1,7 @@
 require('./index.css');
 require('Page/common/nav-simple/index.js');
 const _user = require('Service/user-service.js');
+const _mm = require('Util/mm.js');
 
 const formError = {
     show(errMsg) {
@@ -74,6 +75,38 @@ const page = {
                     formError.show('问题回答错误，请仔细回想~');
                 },
             );
+        });
+        // 输入新密码按钮的点击
+        $('#submit_password').click(() => {
+            let newPassword = $.trim($('#user_password').val());
+            if (!newPassword) {
+                formError.show('新密码不能为空');
+                return;
+            }
+            if (newPassword.length < 6) {
+                formError.show('新密码长度必须大于 6 位');
+                return;
+            }
+            _user.resetPassword(
+                {
+                    username: this.data.username,
+                    passwordNew: newPassword,
+                    forgetToken: this.data.token,
+                },
+                // 重置成功
+                // 成功后，需要先退出当前登录
+                () => {
+                    _user.logout(() => {
+                        window.location.href = './result.html?type=password-reset';
+                    }, () => {
+                        _mm.errorTips('没有正确退出登录，请手动退出重新登录~');
+                        window.location.href = './result.html';
+                    });
+                },
+                // 重置失败
+                (err) => {
+                    formError.show(err);
+                });
         });
     },
     // 加载输入用户名步骤

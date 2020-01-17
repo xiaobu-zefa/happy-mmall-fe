@@ -20,7 +20,7 @@ const _mm = {
 			success: function (res) {
 				// 请求成功
 				if (0 === res.status) {
-					typeof success === 'function' && success(res.data);
+					typeof success === 'function' && success(res.data, res.msg);
 				}
 				// 没有登陆 需要强制登录
 				else if (10 === res.status) {

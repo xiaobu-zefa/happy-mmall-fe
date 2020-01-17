@@ -82,3 +82,21 @@ a{
     height: 65px;
     background: url('../../image/icon/loading.gif');
 }
+
+/* panel */
+.panel{
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+.panel .panel-title{
+    padding: 10px;
+    font-size: 14px;
+    color: #666;
+    font-weight: 700;
+    border-bottom: 1px solid #eee;
+}
+.panel .panel-body{
+    padding: 10px;
+    overflow: hidden;
+}

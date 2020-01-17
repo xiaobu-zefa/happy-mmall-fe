@@ -5,5 +5,5 @@ const navSide = require('Page/common/nav-side/index.js');
 
 
 $(function () {
-    nav.init();
+    nav.init({});
 });

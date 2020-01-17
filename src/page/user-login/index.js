@@ -14,6 +14,11 @@ const formError = {
 
 const page = {
     init() {
+        // 先判断是不是已经登录了
+        _user.checkLogin((res) => {
+            _mm.successTips('当前已有用户' + res.username + '在线~');
+            _mm.goHome();
+        });
         this.bindEvent();
     },
     bindEvent() {
@@ -40,8 +45,6 @@ const page = {
                 formData,
                 // 登录成功，跳转
                 function (res) {
-                    console.log(res);
-                    debugger;
                     window.location.href = _mm.getUrlParam('redirect') || './index.html';
                 },
                 // 登录失败，提示
