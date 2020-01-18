@@ -1,0 +1,121 @@
+/* keywords-list */
+.keywords-list{
+    float: left;
+    height: 350px;
+    width: 240px;
+    padding: 10px 0;
+    margin-right: 10px;
+    background-color: #666;
+    color: #fff;
+}
+.keywords-list .keywords-item{
+    padding-left: 10px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+}
+.keywords-list .keywords-item:hover{
+    background-color: #999;
+}
+.keywords-list .keywords-item .link{
+    color: #fff;
+    margin-right: 6px;
+}
+.keywords-list .keywords-item .link:hover{
+    color: #c60023;
+}
+
+/* banner */
+.banner-con{
+    width: 830px;
+    float: left;
+    background-color: #eee;
+    height: 370px;
+}
+.banner-con .loading{
+    margin-top: 150px;
+}
+
+/* banner 前一张 后一张 按钮 */
+.banner-con .banner-arrow{
+    position: absolute;
+    top: 160px;
+    width: 30px;
+    height: 50px;
+    text-align: center;
+    font-size: 30px;
+    background-color: #ccc;
+    background: rgba(0, 0, 0, .2);
+    color: #fff;
+    z-index: 99;
+    cursor: pointer;
+}
+.banner-con .banner-arrow:hover{
+    background-color: #aaa;
+    background: rgba(0,0, 0, .5);
+}
+.banner-con .banner-arrow.prev{
+    left: 0;
+}
+.banner-con .banner-arrow.next{
+    right: 30px;
+}
+/* floor */
+.floor-wrap .floor-title{
+    height: 50px;
+    line-height: 50px;
+    color: #d58717;
+    font-weight: 400;
+    border-bottom: 1px solid #d58717;
+}
+/* 更改个楼层标题颜色 */
+.floor-wrap:nth-child(2) .floor-title{
+    color: #a93631;
+    border-bottom: 1px solid #a93631; 
+}
+.floor-wrap:nth-child(3) .floor-title{
+    color: #488bad;
+    border-bottom: 1px solid #488bad; 
+}
+.floor-wrap:nth-child(4) .floor-title{
+    color: #642663;
+    border-bottom: 1px solid #642663; 
+}
+.floor-wrap:nth-child(5) .floor-title{
+    color: #3b838c;
+    border-bottom: 1px solid #3b838c; 
+}
+.floor-wrap .floor-list{
+    margin-right: -20px;
+    overflow: hidden;
+}
+.floor-wrap .floor-list .floor-item{
+    position: relative;
+    float: left;
+    width: 200px;
+    height: 220px;
+    margin:15px 20px 15px 0;
+    cursor: pointer;
+    background: #fff;
+}
+.floor-wrap .floor-list .floor-item:hover{
+    box-shadow: 1px 1px 7px #ddd;
+}
+.floor-wrap .floor-list .floor-item .floor-text{
+    position: absolute;
+    top: 12px;
+    left:20px;
+    font-size: 16px;
+    color: #555;
+}
+.floor-wrap .floor-list .floor-item .floor-img{
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    width: 80%;
+    border:none;
+}
+/* banner 图片 */
+.banner-con .banner-img{
+    height: 370px;
+}

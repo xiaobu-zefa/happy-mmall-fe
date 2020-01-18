@@ -1,10 +1,15 @@
 require('./index.css');
 const _user = require('Service/user-service.js');
+const _cart = require('Service/cart-service.js');
 
 const page = {
     init() {
         this.bindEvent();
+        this.onLoad();
+    },
+    onLoad() {
         this.loadUserInfo();
+        this.loadCarProductCount();
     },
     bindEvent() {
         // 点击退出登录
@@ -29,6 +34,19 @@ const page = {
                 console.log(errMsg);
             });
     },
+    // 加载购物车商品数量
+    loadCarProductCount() {
+        _cart.getCartProductCount(
+            // 获取成功
+            (count) => {
+                $('.cart-count').text(count);
+            },
+            // 获取失败
+            (errMsg) => {
+                _mm.errorTips(errMsg);
+            },
+        );
+    }
 };
 
 module.exports = page;

@@ -254,9 +254,14 @@
 
     修改用户信息模块，基本跟用户中心模块差不多，用户名不能修改，其余项用输入框的形式存在。
 
-2. `user-pass-update` 模块
+3. `user-pass-update` 模块
 
     修改密码模块。没有使用模板渲染，直接在 html 文件中写的代码。
+
+4. `reset-password` 模块
+
+    重置密码模块。分了三个步骤，1 输入用户名，2 输入问题答案，3 输入新密码。没有什么难度，主要是理顺逻辑。
+
 
 ##### 三、注意的问题
 
@@ -265,4 +270,170 @@
     在用户中心模块和修改用户信息模块中要对提交按钮绑定点击事件，但是由于提交按钮是动态渲染出来的，所以不能直接绑定。需要用到事件委托。
 
 至此，用户这个大模块就基本开发完毕了，今天做的三个小模块组成了一个小型的SPA，后续还会补充一个订单模块在此SPA中。写顺畅了之后感觉代码写起来还是挺顺手的，就这样吧，等着把事件冒泡，事件委托，事件绑定再好好看一遍~
+
+##### 四、补充
+
+1. 事件冒泡
+
+    当一个元素的事件被触发时，这个事件会一层层的向元素的父元素冒泡，如果父元素也对同样的事件绑定了方法，那么这个方法就会被执行。
+
+    ```js
+    <div id="parent">
+        父元素
+        <div id="son">
+            子元素
+        </div>
+    </div>
+
+    <script>
+        document.querySelector("#parent").addEventListener('click', () => {
+            console.log('父元素点击事件被触发');
+        });
+        document.querySelector("#son").addEventListener('click', () => {
+            console.log('子元素点击事件被触发');
+        });
+    </script>
+    ```
+    可以阻止事件冒泡：
+    ```js
+    document.querySelector("#son").addEventListener('click', (e) => {
+            // 这样就阻止了事件冒泡
+            e.stopPropagation();
+            console.log('子元素点击事件被触发');
+    });
+    ```
+
+2. 事件捕获
+
+    事件冒泡是从内而外的执行，与之相对的还有一个叫事件捕获的东西。当你点击一个元素的时候，事件会从你点击的最外层元素一层层的传播到你点击的元素，这就是事件捕获。
+    addEventListener 这个方法其实有三个参数，第三个参数代表执行阶段，如果为 false，则在事件冒泡阶段执行，如果为 true，则在事件捕获阶段执行，默认为 false。
+
+    ```js
+    <div id="parent">
+        父元素
+        <div id="son">
+            子元素
+        </div>
+    </div>
+
+    <script>
+        document.querySelector("#parent").addEventListener('click', () => {
+            console.log('父元素点击事件被触发');
+        },true);
+        document.querySelector("#son").addEventListener('click', () => {
+            console.log('子元素点击事件被触发');
+        },true);
+    </script>
+    ```
+    
+    可以阻止事件捕获：
+
+    ```js
+    document.querySelector("#parent").addEventListener('click', (e) => {
+        console.log('父元素点击事件被触发');
+        // 这样就阻止了事件向下捕获
+        e.stopImmediatePropagation();
+    }, true);
+    ```
+    这样事件捕获到父元素就不会在向下捕获了。
+
+3. 事件委托
+
+    事件委托是事件冒泡的使用场景。
+    考虑两种情况：
+    - 一个 ul 元素 有大量的 li 元素，我们要为所有的 li 元素绑定事件，但是由于 li 元素太多，全部绑定需要耗费大量内存。
+    - 一个 ul 列表是动态渲染出来的，我们要为其绑定事件需要在渲染完成之后再重新绑定，费时费力。
+
+    这个时候我们就可以用到事件委托。
+    我们为父元素绑定事件，然后由子元素事件冒泡到父元素，由父元素判断是哪个子元素冒泡过来的，再执行对应的逻辑。
+    事件对象 event 有两个属性与其相关：
+    
+    ```js
+        event.target // 触发事件的元素
+        event.currentTarget // 执行事件逻辑的元素
+    ```
+
+    我们只需要用到 `event.target` 属性就可以了：
+    
+    ```js
+    <div id="parent">
+        父元素
+        <div id="son">
+            子元素
+        </div>
+    </div>
+
+    <script>
+        let parent_ele = document.querySelector("#parent");
+        let son_ele = document.querySelector("#son");
+        document.addEventListener('click', (e) => {
+            if (e.target === parent_ele) {
+                console.log('父元素事件');
+            }
+            if (e.target === son_ele) {
+                console.log('子元素事件');
+            }
+        });
+    </script>
+    ```
+
+## 2020/1/18 - 项目开发
+
+##### 一、购物车模块开发
+
+1. `index` 模块
+
+    主页模块。主体分两个部分：
+    
+    - 导航框
+    - 楼层展示
+    
+    导航框又分为导航列表和轮播图。
+
+##### 二、遇到的问题
+
+本来应该是做购物车模块开发的，结果再主页这个页面上墨迹了一天...
+
+1. 图片的 src 路径问题
+
+    使用 url-loader 打包图片的时候，路径变成了 `src = [Module Object]` ，shit，查了半天原来是新版的 url-loader 默认开启的是 es 模块支持，于是使用 commonjs 打包就会出错。在配置中修改：
+
+    ```js
+    module: {
+            rules: [
+                {
+                    test: /\.(gif|png|jpg|woff|woff2|svg|eot|ttf)$/,
+                    use: [
+                        {
+                            loader: 'url-loader?limit=100&name=resource/[name].[ext]',
+                            options: {
+                                // 关闭 es 模块支持
+                                esModule: false,
+                            }
+                        }
+                    ],
+                },
+            ]
+        },
+    ```
+
+    解决！！！
+
+2. 轮播图插件问题
+
+    项目使用的轮播图插件是 `unslider` ，我去官网发现官网都已经崩了，下载地址也无效了。去仓库，仓库居然都已经删了，去新版官网，发现官网域名正在出售...
+    于是在网上随便找了个轮播图插件，结果是一个做的很一般的 demo 。demo 就 demo 吧，我自己改一下改成模块化组件吧，改了半天，勉强能用了，但是教程中的项目没有把轮播图组件化， 于是我又把文件全删了。从项目仓库中找到遗留的 `unslider` 来用。
+    一切安好，结果运行的时候提示 `unslider is not a function`。怎么调试都不行，明明 `jquery` 都引了，调了半天，最后把已经压缩的源码格式化看了一下， 最后发现传入的是 `window.jQuery`，但是我的配置文件中没有暴露，于是修改配置文件：
+
+    ```js
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery',
+            // 原先只配置了上面两项...
+            'window.jQuery': 'jquery',
+        }),
+    ```
+    
+    好了，问题解决了，有点扎心....进度有点缓慢了。
+
 

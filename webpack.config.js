@@ -40,11 +40,23 @@ module.exports = {
             },
             {
                 test: /\.(gif|png|jpg|woff|woff2|svg|eot|ttf)$/,
-                use: ['url-loader?limit=100&name=resource/[name].[ext]'],
+                use: [
+                    {
+                        loader: 'url-loader?limit=100&name=resource/[name].[ext]',
+                        options: {
+                            esModule: false,
+                        }
+                    }
+                ],
             },
             {
                 test: /\.string$/,
-                use: ['html-loader'],
+                use: [
+                    {
+                        loader: 'html-loader',
+                    }
+                ],
+
             }
         ]
     },
@@ -72,8 +84,9 @@ module.exports = {
     },
     plugins: [
         new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
+            '$': 'jquery',
+            'jQuery': 'jquery',
+            'window.jQuery': 'jquery',
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
