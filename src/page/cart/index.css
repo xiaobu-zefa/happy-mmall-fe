@@ -1,0 +1,57 @@
+.cart-table{
+    width: 100%;
+    border-collapse: collapse;
+    border:1px solid  #ebebeb;
+    margin-bottom: 10px;
+}
+/* header */
+.cart-header{
+    background-color: #eee;
+}
+
+
+.cart-table .cart-cell{
+    height: 40px;
+    line-height: 40px;
+}
+
+.cart-table .cell-check{
+    width: 6%;
+    text-align: left;
+    padding-left: 20px;
+}
+.cart-table .cell-info{
+    width: 35%;
+    text-align: left;
+}
+.cart-table .cell-price{
+    width: 10%;
+    text-align: center;
+}
+.cart-table .cell-count{
+    width: 15%;
+    text-align: center;
+}
+.cart-table .cell-total{
+    width: 14%;
+    text-align: center;
+}
+.cart-table .cell-opera{
+    text-align: center;
+    width: 10%;
+}
+.cart-table .cell-img{
+    width: 10%;
+    text-align: center;
+    padding-left: 10px;
+}
+.cart-table .cell-img img{
+    margin: 10px 0;
+    width: 80px;
+    height: 80px;
+    border:1px solid #ddd;
+}
+.cart-header .cell-info{
+    width: 45%;
+    padding-left: 106px;
+}

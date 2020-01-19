@@ -24,11 +24,17 @@ const _mm = {
 				}
 				// 没有登陆 需要强制登录
 				else if (10 === res.status) {
+					this.errorTips('请先登录~');
 					this.doLogin();
 				}
 				// 请求数据错误
 				else if (1 === res.status) {
 					typeof error === 'function' && error(res.msg);
+				}
+				// 请求参数错误
+				else if (2 === res.status) {
+					console.log('请求参数错误');
+					console.log(res);
 				}
 			}.bind(this),
 			error: function (err) {

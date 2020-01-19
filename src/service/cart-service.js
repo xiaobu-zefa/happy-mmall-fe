@@ -11,6 +11,15 @@ const cart = {
             error: reject
         });
     },
+    // 加入购物车
+    addCart(productInfo, resolve, reject) {
+        _mm.request({
+            url: 'http://localhost:8088/api/cart/add.do',
+            method: 'POST',
+            data: productInfo,
+            success: resolve,
+            error: reject
+        });
+    },
 };
-
 module.exports = cart;

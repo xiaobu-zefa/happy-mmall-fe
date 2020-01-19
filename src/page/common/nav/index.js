@@ -1,4 +1,5 @@
 require('./index.css');
+const _mm = require('Util/mm.js');
 const _user = require('Service/user-service.js');
 const _cart = require('Service/cart-service.js');
 
@@ -43,7 +44,6 @@ const page = {
             },
             // 获取失败
             (errMsg) => {
-                _mm.errorTips(errMsg);
             },
         );
     }

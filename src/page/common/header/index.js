@@ -5,6 +5,7 @@ const _mm = require('Util/mm.js');
 const header = {
     init() {
         this.bindEvent();
+        this.onLoad();
     },
     // 搜索结果的回显
     onLoad() {
