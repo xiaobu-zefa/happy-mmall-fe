@@ -10,6 +10,16 @@
 }
 
 
+.cart-table .cart-cell .count-btn{
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border:1px solid #ddd;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #fff;
+}
 .cart-table .cart-cell{
     height: 40px;
     line-height: 40px;
@@ -54,4 +64,58 @@
 .cart-header .cell-info{
     width: 45%;
     padding-left: 106px;
+}
+
+.cart-table .cart-cell .count-input{
+    width: 60px;
+    height: 28px;
+    line-height: 28px;
+    border: 1px solid #ddd;
+    color: #333;
+    vertical-align: middle;
+    outline: none;
+    text-align: center;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+/* footer */
+.cart-footer {
+    position: relative;
+    line-height: 50px;
+    background-color: #eee;
+    overflow: hidden;
+}
+.cart-footer .select-con {
+    padding-left: 20px;
+    float: left;
+}
+.cart-footer .delete-con {
+    float: left;
+    margin-left: 20px;
+}
+.cart-footer .submit-con {
+    float: right;
+}   
+.cart-footer .submit-con .submit-total{
+    font-size: 18px;
+    color: #c60023;
+    font-weight: 700;
+    margin-right: 30px;
+    vertical-align: middle;
+}
+.cart-footer .submit-con .btn-submit{
+    line-height: 40px;
+    text-align: center;
+}
+/* 错误信息 */
+.err-tip{
+    height: 60px;
+    line-height: 60px;
+    color: #f60;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    background-color: #eee;
 }

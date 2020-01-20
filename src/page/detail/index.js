@@ -11,7 +11,6 @@ const page = {
     data: {
         productId: _mm.getUrlParam('productId'),
         bycount: 1,
-        stock: 0,
     },
 
     init() {
@@ -22,11 +21,10 @@ const page = {
         if (!this.data.productId) {
             _mm.goHome();
         }
-        this.loadDetail(() => {
-            this.bandBtn();
-        });
+        this.loadDetail();
     },
     bindEvent() {
+
         _this = this;
         // 鼠标进入缩略图
         $(document).on('mouseenter', '.sub-img', function () {
@@ -35,7 +33,8 @@ const page = {
         });
         // 加入购物车按钮
         $(document).on('click', '.cart-add', function () {
-            if ($(this).attr('disabled')) {
+            let max = parseInt($('.intro-wrap').data('max'));
+            if (max === 0) {
                 _mm.errorTips('商品已经售空~');
                 return;
             }
@@ -46,47 +45,38 @@ const page = {
                     count: _this.data.bycount,
                 },
                 // 加入成功
-                (res) => {
-
+                (res, msg) => {
+                    window.location.href = './result.html?type=add-cart';
                 },
                 // 加入失败
                 (err) => {
-                    _mm.doLogin();
+                    _mm.errorTips(err);
                 }
             );
         });
         // 增加与减少购买数量按钮
         $(document).on('click', '.p-count-btn', function () {
-
-            if ($(this).attr('disabled')) {
-                _mm.errorTips('商品已经售空~');
-                return;
-            }
-
+            let max = parseInt($('.intro-wrap').data('max'));
             // 增加按钮
             if ($(this).hasClass('plus')) {
-                if (_this.data.bycount + 1 <= _this.data.stock) {
-                    _this.data.bycount++;
-                    $(".p-count").val(_this.data.bycount);
+                if (_this.data.bycount + 1 > max) {
+                    _mm.errorTips('不能超过最大购买量~');
+                    return;
                 }
-                else {
-                    _mm.errorTips('已经超过最大购买量~');
-                }
+                _this.data.bycount++;
+                $(".p-count").val(_this.data.bycount);
             }
             // 减少按钮
             else {
-                if (_this.data.bycount - 1 > 0) {
-                    _this.data.bycount--;
-                    $(".p-count").val(_this.data.bycount);
+                if (_this.data.bycount - 1 <= 0) {
+                    return;
                 }
-                else {
-                    _mm.errorTips('最少购买一个~');
-                }
+                _this.data.bycount--;
+                $(".p-count").val(_this.data.bycount);
             }
-
         });
     },
-    loadDetail(callback) {
+    loadDetail() {
         let html = '';
         $('.page-wrap').html('<div class="loading"></div>');
         _product.getProductDetail(this.data.productId,
@@ -94,7 +84,6 @@ const page = {
                 this.filteData(res);
                 html = _mm.renderHtml(templateIndex, res);
                 $('.page-wrap').html(html);
-                callback && callback();
             },
             (errMsg) => {
                 $('.page-wrap').html('<p class="err-tip">' + errMsg + '</p>');

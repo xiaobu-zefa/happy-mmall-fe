@@ -126,7 +126,7 @@ module.exports = {
             // 比如 localhost:8088/api/lookup?key=123 会变为 http://happymmall.com/lookup?key=123
             '/api': {
                 changeOrigin: true,
-                target: 'http://happymmall.com/',
+                target: 'http://test.happymmall.com/',
                 pathRewrite: { '^/api': '' },
                 secue: false,
                 cookieDomainRewrite: {

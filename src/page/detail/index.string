@@ -1,4 +1,4 @@
-<div class="intro-wrap">
+<div class="intro-wrap" data-max="{{stock}}">
     <div class="p-img-con">
         <div class="main-img-con">
             <img class="main-img" src="{{imageHost}}{{mainImage}}" alt="{{name}}">
@@ -29,7 +29,7 @@
             <span class="p-count-btn minus">-</span>
         </div>
         <div class="p-info-item">
-            <a href="" class="btn cart-add">加入购物车</a>
+            <a class="btn cart-add">加入购物车</a>
         </div>
     </div>
 </div>
