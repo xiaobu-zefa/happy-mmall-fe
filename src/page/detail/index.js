@@ -45,7 +45,7 @@ const page = {
                     count: _this.data.bycount,
                 },
                 // 加入成功
-                (res, msg) => {
+                () => {
                     window.location.href = './result.html?type=add-cart';
                 },
                 // 加入失败
