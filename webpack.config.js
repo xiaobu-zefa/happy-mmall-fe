@@ -26,6 +26,7 @@ module.exports = {
         'order-confirm': ['./src/page/order-confirm/index.js'],
         'order-list': ['./src/page/order-list/index.js'],
         'order-detail': ['./src/page/order-detail/index.js'],
+        'payment': ['./src/page/payment/index.js'],
         'user-login': ['./src/page/user-login/index.js'],
         'user-register': ['./src/page/user-register/index.js'],
         'user-pass-reset': ['./src/page/user-pass-reset/index.js'],
@@ -106,6 +107,7 @@ module.exports = {
         getHtmlWebpackPlugin('order-confirm', '订单确认'),
         getHtmlWebpackPlugin('order-list', '订单列表'),
         getHtmlWebpackPlugin('order-detail', '订单详情'),
+        getHtmlWebpackPlugin('payment', '订单支付'),
         getHtmlWebpackPlugin('user-register', '用户注册'),
         getHtmlWebpackPlugin('user-pass-reset', '找回密码'),
         getHtmlWebpackPlugin('user-center', '个人中心'),
@@ -132,7 +134,7 @@ module.exports = {
             // 比如 localhost:8088/api/lookup?key=123 会变为 http://happymmall.com/lookup?key=123
             '/api': {
                 changeOrigin: true,
-                target: 'http://test.happymmall.com/',
+                target: 'http://happymmall.com/',
                 pathRewrite: { '^/api': '' },
                 secue: false,
                 cookieDomainRewrite: {

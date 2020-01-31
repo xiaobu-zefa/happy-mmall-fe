@@ -12,7 +12,6 @@ const templateProduct = require('./product-list.string');
 const page = {
     data: {
         selectedAddressId: null,
-
     },
 
     init() {
@@ -83,7 +82,8 @@ const page = {
                 _mm.errorTips('请选择收货地址');
                 return;
             }
-            _order.createOrder(_this.data.selectedAddressId,
+            _order.createOrder(
+                _this.data.selectedAddressId,
                 (data) => {
                     window.location.href = 'payment.html?orderNumber=' + data.orderNo;
                 },

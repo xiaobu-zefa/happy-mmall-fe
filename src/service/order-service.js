@@ -12,11 +12,13 @@ const order = {
         });
     },
     // 创建订单
-    createOrder(shppingId, resolve, reject) {
+    createOrder(shippingId, resolve, reject) {
         _mm.request({
             url: 'http://localhost:8088/api/order/create.do',
             method: 'POST',
-            data: shppingId,
+            data: {
+                shippingId
+            },
             success: resolve,
             error: reject
         });
