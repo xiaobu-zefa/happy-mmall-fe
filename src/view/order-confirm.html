@@ -3,11 +3,10 @@
 
 <head>
     <%= require('html-loader!./layout/head-common.html') %>
-    <title><%= htmlWebpackPlugin.options.title%> - happymmall电商平台</title>
+    <title><%= htmlWebpackPlugin.options.title %>happymmall电商平台</title>
 </head>
 
 <body>
-
     <%= require('html-loader!./layout/nav.html') %>
     <%= require('html-loader!./layout/header.html') %>
     <div class="crumb">
@@ -19,19 +18,30 @@
             </div>
         </div>
     </div>
+
     <div class="page-wrap w">
-        <%= require('html-loader!./layout/nav-side.html') %>
-        <div class="content with-nav">
-            <div class="panel">
-                <div class="panel-title"><%= htmlWebpackPlugin.options.title%></div>
-                <div class="panel-body">
-                    <div class="loading"></div>
-                </div>
+
+        <div class="panel">
+            <h1 class="panel-title">收货地址</h1>
+            <div class="panel-body address-con">
+
+                <div class="loading"></div>
             </div>
         </div>
-    </div>
-    <%= require('html-loader!./layout/footer.html') %>
 
+        <div class="panel">
+            <h1 class="panel-title">商品清单</h1>
+            <div class="panel-body product-con">
+
+                <div class="loading"></div>
+            </div>
+        </div>
+
+        <div class="modal-wrap">
+        </div>
+    </div>
+
+    <%= require('html-loader!./layout/footer.html') %>
 </body>
 
 </html>

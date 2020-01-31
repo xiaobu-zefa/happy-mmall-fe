@@ -1,0 +1,44 @@
+<div class="modal">
+    <div class="modal-con">
+        <div class="modal-header">
+            <h1 class="modal-title">使用新地址</h1>
+            <i class="fa fa-close close"></i>
+        </div>
+        <div class="modal-body">
+            <div class="form">
+                <div class="form-line">
+
+                    <label for="" class="label"><span class="require">*</span>收件人姓名：</label>
+                    <input type="text" class="form-item" id="receiver-name" placeholder="请输入收件人姓名"
+                        value="{{receiverName}}">
+                </div>
+                <div class="form-line">
+                    <label for="receiver-province" class="label"><span class="require">*</span>所在城市：</label>
+                    <select class="form-item" id="receiver-province">
+                        <option>北京</option>
+                    </select>
+                    <select class="form-item" id="receiver-city">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-line">
+                    <label for="" class="label"><span class="require">*</span>详细地址：</label>
+                    <input type="text" class="form-item" id="receiver-address" placeholder="精确到门牌号"
+                        value="{{receiverAddress}}">
+                </div>
+                <div class="form-line">
+                    <label for="" class="label"><span class="require">*</span>收件人手机：</label>
+                    <input type="text" class="form-item" id="receiver-phone" placeholder="请输入收件人手机号"
+                        value="{{receiverPhone}}">
+                </div>
+                <div class="form-line">
+                    <label for="" class="label">邮政编码：</label>
+                    <input type="text" class="form-item" id="receiver-zip" placeholder="请输入邮编" value="{{receiverZip}}">
+                </div>
+                <div class="form-line">
+                    <a class="btn address-btn">保存收货地址</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

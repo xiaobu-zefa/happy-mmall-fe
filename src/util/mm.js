@@ -24,7 +24,6 @@ const _mm = {
 				}
 				// 没有登陆 需要强制登录
 				else if (10 === res.status) {
-					this.errorTips('请先登录~');
 					this.doLogin();
 				}
 				// 请求数据错误

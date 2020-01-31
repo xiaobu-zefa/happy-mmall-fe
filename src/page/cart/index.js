@@ -161,7 +161,7 @@ const page = {
                 _mm.errorTips('请选择商品后再提交');
                 return;
             }
-            window.location.href = './confirm.html';
+            window.location.href = './order-confirm.html';
         });
     },
     // 加载购物车
