@@ -4,6 +4,16 @@
 
 打算从零开始跟一边这个课程，在此记录一下进度与收获。
 
+## 项目执行方式
+
+####  一、安装node环境
+
+#### 二、下载源代码
+
+#### 三、进入项目目录，执行 npm i
+
+#### 四、执行 npm run dev
+
 ## 2020/1/14 - 项目开始
 
 ##### 一、架构设计
@@ -22,17 +32,17 @@
 1. webpack 多入口的配置
 
    ```js
-        entry: {
-            'common': ['./src/page/common/index.js'],
-            'index': ['./src/page/index/index.js'],
-            'user-login': ['./src/page/user-login/index.js'],
-            'result': ['./src/page/result/index.js'],
-        },
-        output: {
-            path: path.resolve(__dirname, './dist'),
-            filename: 'js/[name].js',
-            publicPath: '/dist/',
-        },
+   entry: {
+       'common': ['./src/page/common/index.js'],
+       'index': ['./src/page/index/index.js'],
+       'user-login': ['./src/page/user-login/index.js'],
+       'result': ['./src/page/result/index.js'],
+   },
+   output: {
+       path: path.resolve(__dirname, './dist'),
+       filename: 'js/[name].js',
+       publicPath: '/dist/',
+   },
    ```
 
 2. 全局模块的引用
@@ -40,21 +50,21 @@
    项目中用到了 jquery 这个库，如果一个模块要使用它，那么每次都需呀在开头引用一下，有些麻烦，所以使用 `ProvidePlugin` 插件，如果在模块中使用了 `$` 或者 `jQuery`，那么就会被自动引入。
 
    ```js
-        plugins: [
-            new webpack.ProvidePlugin({
-                $: 'jquery',
-                jQuery: 'jquery'
-            });
-        ],
+   plugins: [
+       new webpack.ProvidePlugin({
+           $: 'jquery',
+           jQuery: 'jquery'
+       });
+   ],
    ```
 
    当然也可以直接在文件中使用CDN提供的`jquery`，然后通过像这样的方式配置：
 
    ```js
-        externals: {
-            jquery: 'jQuery',
-            $: 'jQuery',
-        }
+   externals: {
+       jquery: 'jQuery',
+       $: 'jQuery',
+   }
    ```
 
 3. css 文件的分离
@@ -66,11 +76,11 @@
    使用插件 MiniCssExtractPlugin 来分离 css 文件。下面的配置是将 css 文件分离到输出目录的 css/ 目录下面，并使用源文件的文件名。
 
    ```js
-        plugins: [
-            new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
-            }),
-        ],
+   plugins: [
+       new MiniCssExtractPlugin({
+       		filename: 'css/[name].css',
+       }),
+   ],
    ```
 
 4. html 文件的打包
@@ -80,41 +90,41 @@
    使用插件 `HtmlWebpackPlugin` ，需要为每一个要打包的 html 文件 new 一个 `HtmlWebpackPlugin` 。
 
    ```js
-        plugins: [
-            new HtmlWebpackPlugin({
-                template: './src/view/index.html',  // 要打包的 html 文件的模板
-                filename: 'view/index.html', // 打包到输出目录下的 view/index.html
-                inject: true,
-                hash: true, // 启用哈希
-                title: '首页', // 打包后文件的标题
-                chunks: ['common', 'index'], // 使用到的 chunk，这里会将 common 和 index 引入到文件中
-            });
-        ],
+   plugins: [
+   	new HtmlWebpackPlugin({
+           template: './src/view/index.html',  // 要打包的 html 文件的模板
+           filename: 'view/index.html', // 打包到输出目录下的 view/index.html
+           inject: true,
+           hash: true, // 启用哈希
+           title: '首页', // 打包后文件的标题
+           chunks: ['common', 'index'], // 使用到的 chunk，这里会将 common 和 index 引入到文件中
+       });
+   ],
    ```
 
    由于每个 html 文件都需要这样的一个配置，全部这样写有些麻烦，所以封装一个方法简化操作：
 
    ```js
-        function getHtmlWebpackPlugin(name, title) {
-            return new HtmlWebpackPlugin({
-                template: './src/view/' + name + '.html',
-                filename: 'view/' + name + '.html',
-                inject: true,
-                hash: true,
-                title: title,
-                chunks: ['common', name]
-            });
-        }
+   function getHtmlWebpackPlugin(name, title) {
+       return new HtmlWebpackPlugin({
+           template: './src/view/' + name + '.html',
+           filename: 'view/' + name + '.html',
+           inject: true,
+           hash: true,
+           title: title,
+           chunks: ['common', name]
+       });
+   }
    ```
 
    这样只需要在插件配置中这样写，就配置了三个 html 文件：
 
    ```js
-        plugins: [
-            getHtmlWebpackPlugin('index', '首页'),
-            getHtmlWebpackPlugin('user-login', '用户登录'),
-            getHtmlWebpackPlugin('result', '操作结果'),
-        ],
+   plugins: [
+       getHtmlWebpackPlugin('index', '首页'),
+       getHtmlWebpackPlugin('user-login', '用户登录'),
+       getHtmlWebpackPlugin('result', '操作结果'),
+   ],
    ```
 
 5. 公共模块的提取
@@ -124,28 +134,28 @@
    webpack4 使用了 `splitChunks` 作为新的代码分离工具。
 
    ```js
-        optimization: {
-            splitChunks: {
-                cacheGroups: {
-                    vendors: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: 'vendor',
-                        // filename: 'js/vendors.js',
-                        priority: -10,
-                        minChunks: 1,
-                        chunks: 'all',
-                    },
-                    common: {
-                        test: path.resolve(__dirname, '/src/page/common/index.js'),
-                        name: 'common',
-                        chunks: 'all',
-                        filename: 'js/common.js',
-                        minSize: 0,
-                        priority: -20,
-                    },
-                }
-            },
-        },
+   optimization: {
+       splitChunks: {
+           cacheGroups: {
+               vendors: {
+                   test: /[\\/]node_modules[\\/]/,
+                   name: 'vendor',
+                   // filename: 'js/vendors.js',
+                   priority: -10,
+                   minChunks: 1,
+                   chunks: 'all',
+               },
+               common: {
+                   test: path.resolve(__dirname, '/src/page/common/index.js'),
+                   name: 'common',
+                   chunks: 'all',
+                   filename: 'js/common.js',
+                   minSize: 0,
+                   priority: -20,
+               },
+           }
+       },
+   },
    ```
 
    `vendors` 组用来分离第三方库，`common` 组用来分离自己的公共代码。需要注意，`vendors` 组的优先级被设置为 -10，这样如果一个模块同时也匹配到了 `common` 组，那么会按照优先级大的 `vendors` 组来分离。
@@ -170,14 +180,14 @@
    侧边栏模块。使用 js 用动态的方式创建侧边栏，并使用 `hogan.js` 进行模板渲染，`hogan.js` 需要有一个模板，模板名称为 `index.string` ，并用 `require` 的方式导入，需要主义的是，.string 后缀的文件，`webpack` 默认不打包，所以在 `loader` 中指定使用 `html-loader` 进行打包。
 
    ```js
-        module: {
-            rules: [
-                {
-                    test: /\.string$/,
-                    use: ['html-loader'],
-                }
-            ]
-        },
+   module: {
+       rules: [
+           {
+               test: /\.string$/,
+               use: ['html-loader'],
+           }
+       ]
+   },
    ```
 
 2. `result` 模块
@@ -185,11 +195,11 @@
    结果展示页模块。`result.html` 有多个结果提示块，默认隐藏。该模块会从地址栏中获取键为 `type` 的参数值，根据参数值来将对应的结果提示块显示。
 
    ```js
-        $(function () {
-            let type = _mm.getUrlParam('type') || 'default';
-            let $ele = $('.' + type + '-success');
-            $ele.show();
-        });
+   $(function () {
+       let type = _mm.getUrlParam('type') || 'default';
+       let $ele = $('.' + type + '-success');
+       $ele.show();
+   });
    ```
 
 ## 2020/1/16 - 项目开发
@@ -206,7 +216,7 @@
     注册模块，基本跟登录模块差不多，多了一些字段，注册成功之后跳转到结果显示页面。
 
 ##### 二、通用模块的补充
-    
+
 1. `nav` 模块
 
     导航栏模块。检查是否是登录状态，如果是，显示 欢迎你 xx，如果不是，显示 登录与注册。
@@ -214,30 +224,30 @@
 ##### 三、注意的问题
 
 1. 跨域问题与cookie重写
-    
+   
     从今天开始的许多模块都需要调用后台接口了，本项目使用的是教程已经搭建好的[线上项目](http://www.happymmall.com/)的后台接口。且开发中使用的是 `webpack-dev-server` 插件启动服务。但是由于跨域问题，如果直接请求接口，会产生跨域问题导致失败，于是使用 `webpack-dev-server` 的代理功能。
    
     ```js
-        devServer: {
-            hot: true,
-            open: true,
-            port: 8088,
-            contentBase: path.join(__dirname, "dist"),
-            proxy: {
-                // 这里的意思是，只要本地用 /api 开头的请求，都被代理到 http://happymmall.com/api
-                // 但是又配置了 pathRewrite ,将 /api 重写为 '' 所以实际上会被代理到 http://happymmall.com/
-                // 比如 localhost:8088/api/lookup?key=123 会变为 http://happymmall.com/lookup?key=123
-                '/api': {
-                    changeOrigin: true,
-                    target: 'http://happymmall.com/',
-                    pathRewrite: { '^/api': '' },
-                    secue: false,
-                    cookieDomainRewrite: {
-                        ".happymmall.com": "",
-                    }
-                },
-            },
-        }
+    devServer: {
+        hot: true,
+        open: true,
+        port: 8088,
+        contentBase: path.join(__dirname, "dist"),
+        proxy: {
+            // 这里的意思是，只要本地用 /api 开头的请求，都被代理到 http://happymmall.com/api
+            // 但是又配置了 pathRewrite ,将 /api 重写为 '' 所以实际上会被代理到 http://happymmall.com/
+            // 比如 localhost:8088/api/lookup?key=123 会变为 http://happymmall.com/lookup?key=123
+            '/api': {
+                changeOrigin: true,
+                target: 'http://happymmall.com/',
+                pathRewrite: { '^/api': '' },
+                secue: false,
+                cookieDomainRewrite: {
+                	".happymmall.com": "",
+            	}
+        	},
+        },
+    }
     ```
 
     这里的 `cookieDomainRewrite` 配置项非常重要，一些接口会在本地种 cookie ，比如登录接口就会在本地种一个 mmall-login-token 的 cookie，但是 cookie 的域被设置为了 .happymmall.com ，这会导致 cookie 无法被设置，从而无法保持登录状态。使用此配置将 cookie 的域重写就能解决问题。此外还有许多其他的配置项都可以从官方文档中找到。
@@ -400,21 +410,21 @@
 
     ```js
     module: {
-            rules: [
-                {
-                    test: /\.(gif|png|jpg|woff|woff2|svg|eot|ttf)$/,
-                    use: [
-                        {
-                            loader: 'url-loader?limit=100&name=resource/[name].[ext]',
-                            options: {
-                                // 关闭 es 模块支持
-                                esModule: false,
-                            }
+        rules: [
+            {
+                test: /\.(gif|png|jpg|woff|woff2|svg|eot|ttf)$/,
+                use: [
+                    {
+                        loader: 'url-loader?limit=100&name=resource/[name].[ext]',
+                        options: {
+                            // 关闭 es 模块支持
+                            esModule: false,
                         }
-                    ],
-                },
-            ]
-        },
+                    }
+                ],
+            },
+        ]
+    },
     ```
 
     解决！！！
@@ -426,12 +436,12 @@
     一切安好，结果运行的时候提示 `unslider is not a function`。怎么调试都不行，明明 `jquery` 都引了，调了半天，最后把已经压缩的源码格式化看了一下， 最后发现传入的是 `window.jQuery`，但是我的配置文件中没有暴露，于是修改配置文件：
 
     ```js
-        new webpack.ProvidePlugin({
-            '$': 'jquery',
-            'jQuery': 'jquery',
-            // 原先只配置了上面两项...
-            'window.jQuery': 'jquery',
-        }),
+    new webpack.ProvidePlugin({
+        '$': 'jquery',
+        'jQuery': 'jquery',
+        // 原先只配置了上面两项...
+        'window.jQuery': 'jquery',
+    }),
     ```
     
     好了，问题解决了，有点扎心....进度有点缓慢了。
@@ -442,7 +452,6 @@
 ##### 一、商品模块开发
 
 终于把商品模块开发完了，总体来说不是很难，主要就是两个部分：
-    
 1. `list` 模块
 
     商品列表部分。展示商品。
@@ -475,12 +484,7 @@
 
 ##### 购物车模块
 
-    做了购物车模块的开发。
-
-    购物车模块只有一个页面，页面虽然少，而且许多内容都在后端做了，但是前端要做的内容也不少。
-
-    事件绑定也是目前最多的一个页面。
-
+做了购物车模块的开发。购物车模块只有一个页面，页面虽然少，而且许多内容都在后端做了，但是前端要做的内容也不少。事件绑定也是目前最多的一个页面。
 ##### 注意到的问题
 
 1. 购物车页面接口太多
@@ -504,27 +508,27 @@
     
 ## 2020/1/31 - 项目开发
 
-    整整10天没有写一点代码，过年了总想着玩，虽然以为疫情不能出门，但是居然没有一点学习的心那！（我好自豪）
-    学校推迟开学的事件还没有定下来，如果按照原先的正月16开学的话，那么就还有一周多了，毕业设计一点没动.....
-    今天终于狠下心来开始学习了，写了写代码，希望以后的路能顺顺利利把！（加油）
+整整10天没有写一点代码，过年了总想着玩，虽然以为疫情不能出门，但是居然没有一点学习的心那！（我好自豪）
+学校推迟开学的事件还没有定下来，如果按照原先的正月16开学的话，那么就还有一周多了，毕业设计一点没动.....
+今天终于狠下心来开始学习了，写了写代码，希望以后的路能顺顺利利把！（加油）
 
 ##### 订单模块
 
-    用到了数据适配，自己将后端传回的数据处理一下后，在用模板渲染的时候就方便多了!!!
+用到了数据适配，自己将后端传回的数据处理一下后，在用模板渲染的时候就方便多了!!!
 
 1. 订单列表模块
 
-展示出自己所有的订单，点击某一条订单可以显示订单详情。
+   展示出自己所有的订单，点击某一条订单可以显示订单详情。
 
 2. 订单详情模块
 
-展示一个订单的具体信息，包括订单内的所有商品。
+   展示一个订单的具体信息，包括订单内的所有商品。
 
 3. 订单确认模块
 
-这个模块比较复杂，里面包含了一整套的地址的增删改查。
-增加、修改地址用的是同一个模态框模块。
-这里面的一些按钮用到了事件冒泡的内容。
+   这个模块比较复杂，里面包含了一整套的地址的增删改查。
+   增加、修改地址用的是同一个模态框模块。
+   这里面的一些按钮用到了事件冒泡的内容。
 
 ##### 支付模块
 
@@ -546,7 +550,7 @@
 
 - 付款后跳转到 return_url
 
-这种方式是同步处理方式，return_url 必须由后端提供，而且支付完毕后如果用户把浏览器关掉支付结果是得不到通知的，所以需要做一些容错处理。
+  这种方式是同步处理方式，return_url 必须由后端提供，而且支付完毕后如果用户把浏览器关掉支付结果是得不到通知的，所以需要做一些容错处理。
 
 2. notify_url
 
@@ -580,23 +584,23 @@
 
 1. 基本SEO优化
 
-关键词排名 收录量 
+   关键词排名 收录量 
 
-品牌词 高频关键词 长尾关键词
+   品牌词 高频关键词 长尾关键词
 
 2. 常用机巧
 
-增加页面数量（这也是为什么不用单页框架的原因）
+   增加页面数量（这也是为什么不用单页框架的原因）
 
-减少页面层级（不超过三层，如果业务要求层级必须深，那么就需要做网站地图）
+   减少页面层级（不超过三层，如果业务要求层级必须深，那么就需要做网站地图）
 
-关键词密度（做的关键词占的页面的比例 2%-8%）
+   关键词密度（做的关键词占的页面的比例 2%-8%）
 
-友情链接（被高质量网站做了友联）
+   友情链接（被高质量网站做了友联）
 
-分析竞对（参照对手的关键词）
+   分析竞对（参照对手的关键词）
 
-SEO数据监控
+   SEO数据监控
 
 #### 访问数据统计
 [百度数据统计](https://tongji.baidu.com/web/welcome/login)
