@@ -4,6 +4,7 @@ const nav = require('Page/common/nav/index.js');
 const _mm = require('Util/mm.js');
 const _address = require('Service/address-service.js');
 const _order = require('Service/order-service.js');
+const _user = require('Service/user-service.js');
 const addressModal = require('./address-modal.js');
 
 const templateAddress = require('./address-list.string');
@@ -19,8 +20,16 @@ const page = {
         this.bindEvent();
     },
     onLoad() {
-        this.loadAddressList();
-        this.loadProductList();
+        _user.checkLogin(
+            () => {
+                this.loadAddressList();
+                this.loadProductList();
+            },
+            () => {
+                _mm.doLogin();
+            }
+        );
+
     },
     bindEvent() {
         let _this = this;

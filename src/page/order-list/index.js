@@ -4,6 +4,7 @@ const nav = require('Page/common/nav/index.js');
 const navSide = require('Page/common/nav-side/index.js');
 const Pagination = require('Util/pagination/index.js');
 const _order = require('Service/order-service.js')
+const _user = require('Service/user-service.js');
 const _mm = require('Util/mm.js');
 
 const templateHtml = require('./index.string');
@@ -21,12 +22,19 @@ const page = {
         this.onLoad();
     },
     onLoad() {
+        _user.checkLogin(
+            () => {
+                this.loadOrderList();
+            },
+            () => {
+                _mm.doLogin();
+            }
+        );
         // 初始化左侧菜单
         navSide.init({
             name: 'order-list',
         });
 
-        this.loadOrderList();
     },
     // 加载订单列表
     loadOrderList() {

@@ -3,6 +3,7 @@ require('Page/common/header/index.js');
 const _mm = require('Util/mm.js');
 const nav = require('Page/common/nav/index.js');
 const _cart = require('Service/cart-service.js');
+const _user = require('Service/user-service.js');
 
 const templateIndex = require('./index.string');
 
@@ -16,7 +17,16 @@ const page = {
         this.bindEvent();
     },
     onLoad() {
-        this.loadCart();
+
+        _user.checkLogin(
+            () => {
+                this.loadCart();
+            },
+            () => {
+                _mm.doLogin();
+            }
+        )
+
     },
     bindEvent() {
         let _this = this;
@@ -170,7 +180,7 @@ const page = {
             (res) => {
                 this.renderCart(res);
             },
-            (errMsg) => {
+            () => {
                 this.showCartError();
             }
         );

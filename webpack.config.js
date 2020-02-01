@@ -11,6 +11,7 @@ function getHtmlWebpackPlugin(name, title) {
         inject: true,
         hash: true,
         title: title,
+        favicon: './favicon.ico',
         chunks: ['vendor', 'common', name]
     });
 }
@@ -27,6 +28,7 @@ module.exports = {
         'order-list': ['./src/page/order-list/index.js'],
         'order-detail': ['./src/page/order-detail/index.js'],
         'payment': ['./src/page/payment/index.js'],
+        'about': ['./src/page/about/index.js'],
         'user-login': ['./src/page/user-login/index.js'],
         'user-register': ['./src/page/user-register/index.js'],
         'user-pass-reset': ['./src/page/user-pass-reset/index.js'],
@@ -108,6 +110,7 @@ module.exports = {
         getHtmlWebpackPlugin('order-list', '订单列表'),
         getHtmlWebpackPlugin('order-detail', '订单详情'),
         getHtmlWebpackPlugin('payment', '订单支付'),
+        getHtmlWebpackPlugin('about', '关于mmall'),
         getHtmlWebpackPlugin('user-register', '用户注册'),
         getHtmlWebpackPlugin('user-pass-reset', '找回密码'),
         getHtmlWebpackPlugin('user-center', '个人中心'),

@@ -2,6 +2,7 @@ require('./index.css');
 require('Page/common/header/index.js');
 const nav = require('Page/common/nav/index.js');
 const _payment = require('Service/payment-service.js')
+const _user = require('Service/user-service.js');
 const _mm = require('Util/mm.js');
 
 const htmltemplate = require('./index.string');
@@ -16,16 +17,23 @@ const page = {
         this.onLoad();
     },
     onLoad() {
-        _payment.getPaymentInfo(
-            this.data.orderNumber,
-            (res) => {
-                let html = _mm.renderHtml(htmltemplate, res);
-                $('.page-wrap').html(html);
-                // 监听订单状态
-                this.listenOrderStatus();
+        _user.checkLogin(
+            () => {
+                _payment.getPaymentInfo(
+                    this.data.orderNumber,
+                    (res) => {
+                        let html = _mm.renderHtml(htmltemplate, res);
+                        $('.page-wrap').html(html);
+                        // 监听订单状态
+                        this.listenOrderStatus();
+                    },
+                    () => {
+                        $('.page-wrap').html('<p class="err-tips">二维码请求失败</p>');
+                    }
+                );
             },
             () => {
-                $('.page-wrap').html('<p class="err-tips">二维码请求失败</p>');
+                _mm.doLogin();
             }
         );
     },

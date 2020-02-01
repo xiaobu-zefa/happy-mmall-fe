@@ -10,9 +10,16 @@ const templateHtml = require('./index.string');
 const page = {
     init() {
         this.onLoad();
-        this.loadUserInfo();
     },
     onLoad() {
+        _user.checkLogin(
+            () => {
+                this.loadUserInfo();
+            },
+            () => {
+                _mm.doLogin();
+            }
+        );
         // 初始化左侧菜单
         navSide.init({
             name: 'user-center',

@@ -8,13 +8,20 @@ const _mm = require('Util/mm.js');
 const page = {
     init() {
         this.onLoad();
-        this.bindEvent();
+
     },
     onLoad() {
+        _user.checkLogin(
+            () => { },
+            () => {
+                _mm.doLogin();
+            }
+        );
         // 初始化左侧菜单
         navSide.init({
             name: 'pass-update',
         });
+        this.bindEvent();
     },
     bindEvent() {
         // 点击提交按钮
